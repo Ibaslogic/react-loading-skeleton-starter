@@ -7,7 +7,11 @@ import GoBack from '../components/GoBack';
 export default function Post() {
   const { userId } = useParams();
 
-  const { data: posts, isLoading } = useQuery({
+  const {
+    data: posts,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ['posts', userId],
     queryFn: () =>
       fetcherWithFetch(
@@ -23,6 +27,9 @@ export default function Post() {
       <GoBack />
       {isLoading && (
         <div className="text-xl font-medium">A moment please...</div>
+      )}
+      {error && (
+        <div className="text-red-700">{`Error fetching post data: ${error}`}</div>
       )}
       <article>
         <h1 className="text-xl md:text-2xl font-medium mb-6">
